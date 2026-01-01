@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DownhillTracker — Support Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>DownhillTracker Support Portal</h1>
+    <nav class="tabs" role="tablist" aria-label="Support portal tabs">
+      <button role="tab" aria-selected="true" aria-controls="home" id="tab-home" class="tab">Home</button>
+      <button role="tab" aria-selected="false" aria-controls="support" id="tab-support" class="tab">Support</button>
+      <button role="tab" aria-selected="false" aria-controls="privacy" id="tab-privacy" class="tab">Privacy Policy</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" role="tabpanel" aria-labelledby="tab-home" class="panel">
+      <!-- Home page content — left blank for now -->
+    </section>
+
+    <section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel hidden">
+      <!-- Support page content — left blank for now -->
+    </section>
+
+    <section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel hidden">
+      <!-- Privacy Policy content — left blank for now -->
+    </section>
+  </main>
+
+  <script>
+    // Simple accessible tabs behaviour
+    const tabs = document.querySelectorAll('[role="tab"]');
+    const panels = document.querySelectorAll('[role="tabpanel"]');
+
+    function activateTab(tab) {
+      // deactivate all tabs and panels
+      tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+      panels.forEach(p => p.classList.add('hidden'));
+
+      // activate selected tab and corresponding panel
+      tab.setAttribute('aria-selected', 'true');
+      const panel = document.getElementById(tab.getAttribute('aria-controls'));
+      if (panel) panel.classList.remove('hidden');
+      tab.focus();
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab));
+      tab.addEventListener('keydown', (e) => {
+        const index = Array.prototype.indexOf.call(tabs, tab);
+        if (e.key === 'ArrowRight') {
+          const next = tabs[(index + 1) % tabs.length];
+          activateTab(next);
+        } else if (e.key === 'ArrowLeft') {
+          const prev = tabs[(index - 1 + tabs.length) % tabs.length];
+          activateTab(prev);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
