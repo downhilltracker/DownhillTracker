@@ -1,1 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DownhillTracker — Privacy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">DownhillTracker</a>
+      <nav class="nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="support.html">Support</a>
+        <a class="nav-link active" href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
 
+  <main class="container">
+    <section class="page">
+      <h1>Privacy Policy</h1>
+      <p class="lead">DownhillTracker respects your privacy. This page explains what data the app uses and why.</p>
+
+      <div class="card">
+        <h2>Location Data</h2>
+        <p>The app uses your device location to:</p>
+        <ul>
+          <li>Display your position on the map</li>
+          <li>Record your session track when tracking is active</li>
+          <li>Calculate speed, distance, elevation gain/drop</li>
+        </ul>
+        <p>If background tracking is enabled, the app may collect location while the screen is off to continue recording a session.</p>
+      </div>
+
+      <div class="card">
+        <h2>Weather (Optional)</h2>
+        <p>If enabled/available, the app may fetch temperature for your location to store with a saved session. This requires an internet connection.</p>
+      </div>
+
+      <div class="card">
+        <h2>Data Storage</h2>
+        <p>Saved sessions (including track points and summaries) are stored locally on your device. The app does not upload your session history unless you explicitly share it.</p>
+      </div>
+
+      <div class="card">
+        <h2>Contact</h2>
+        <p>Questions about privacy? Email <a href="mailto:privacy@example.com">privacy@example.com</a>.</p>
+      </div>
+
+      <p class="fineprint">
+        Last updated: <span id="lastUpdated"></span><br />
+        © <span id="year"></span> DownhillTracker
+      </p>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("lastUpdated").textContent = new Date().toISOString().slice(0, 10);
+  </script>
+</body>
+</html>
