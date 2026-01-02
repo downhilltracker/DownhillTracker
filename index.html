@@ -6,61 +6,86 @@
   <base href="./">
   <title>DownhillTracker — Home</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Minimal fallback styles so tabs visibly work even if styles.css is missing -->
+  <style>
+    .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .tab { padding:10px 12px; border-radius:999px; border:1px solid rgba(0,0,0,.12); background:rgba(0,0,0,.04); cursor:pointer; }
+    .tab[aria-selected="true"] { background: rgba(90,169,255,.18); border-color: rgba(90,169,255,.45); }
+    main { padding: 16px; }
+    .panel { padding: 14px; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <h1>DownhillTracker Support Portal</h1>
+
     <nav class="tabs" role="tablist" aria-label="Support portal tabs">
-      <button role="tab" aria-selected="true" aria-controls="home" id="tab-home" class="tab">Home</button>
-      <button role="tab" aria-selected="false" aria-controls="support" id="tab-support" class="tab">Support</button>
-      <button role="tab" aria-selected="false" aria-controls="privacy" id="tab-privacy" class="tab">Privacy Policy</button>
+      <button type="button" role="tab" aria-selected="true" aria-controls="home" id="tab-home" class="tab">Home</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="support" id="tab-support" class="tab">Support</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="privacy" id="tab-privacy" class="tab">Privacy Policy</button>
     </nav>
   </header>
 
   <main>
     <section id="home" role="tabpanel" aria-labelledby="tab-home" class="panel">
-      <!-- Home page content — left blank for now -->
+      <h2>Home</h2>
+      <p>Welcome to DownhillTracker. Use the tabs above to view Support or Privacy.</p>
     </section>
 
-    <section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel hidden">
-      <!-- Support page content — left blank for now -->
+    <section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel" hidden>
+      <h2>Support</h2>
+      <p>Email: <a href="mailto:support@example.com">support@example.com</a></p>
     </section>
 
-    <section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel hidden">
-      <!-- Privacy Policy content — left blank for now -->
+    <section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel" hidden>
+      <h2>Privacy Policy</h2>
+      <p>We store sessions locally on-device. Location is used for tracking and stats.</p>
     </section>
   </main>
 
   <script>
-    // Simple accessible tabs behaviour
-    const tabs = document.querySelectorAll('[role="tab"]');
-    const panels = document.querySelectorAll('[role="tabpanel"]');
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
-    function activateTab(tab) {
-      // deactivate all tabs and panels
+    function activateTab(tab, { updateHash = true } = {}) {
+      // deactivate all
       tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
-      panels.forEach(p => p.classList.add('hidden'));
+      panels.forEach(p => p.hidden = true);
 
-      // activate selected tab and corresponding panel
+      // activate selected
       tab.setAttribute('aria-selected', 'true');
-      const panel = document.getElementById(tab.getAttribute('aria-controls'));
-      if (panel) panel.classList.remove('hidden');
-      tab.focus();
+      const id = tab.getAttribute('aria-controls');
+      const panel = document.getElementById(id);
+      if (panel) panel.hidden = false;
+
+      if (updateHash) {
+        // Keep URL shareable: .../index.html#support
+        history.replaceState(null, '', `#${id}`);
+      }
     }
 
+    // Click handlers
     tabs.forEach(tab => {
       tab.addEventListener('click', () => activateTab(tab));
       tab.addEventListener('keydown', (e) => {
-        const index = Array.prototype.indexOf.call(tabs, tab);
+        const index = tabs.indexOf(tab);
         if (e.key === 'ArrowRight') {
-          const next = tabs[(index + 1) % tabs.length];
-          activateTab(next);
+          e.preventDefault();
+          activateTab(tabs[(index + 1) % tabs.length]);
         } else if (e.key === 'ArrowLeft') {
-          const prev = tabs[(index - 1 + tabs.length) % tabs.length];
-          activateTab(prev);
+          e.preventDefault();
+          activateTab(tabs[(index - 1 + tabs.length) % tabs.length]);
         }
       });
     });
+
+    // On load: activate from hash if present
+    const hash = (location.hash || '').replace('#', '');
+    if (hash) {
+      const tab = tabs.find(t => t.getAttribute('aria-controls') === hash);
+      if (tab) activateTab(tab, { updateHash: false });
+    }
   </script>
 </body>
 </html>
