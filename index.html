@@ -28,64 +28,46 @@
   </header>
 
   <main>
-    <section id="home" role="tabpanel" aria-labelledby="tab-home" class="panel">
-      <h2>Home</h2>
-      <p>Welcome to DownhillTracker. Use the tabs above to view Support or Privacy.</p>
-    </section>
+   <section id="home" role="tabpanel" aria-labelledby="tab-home" class="panel">
+  <h2>Home</h2>
+  <p>Welcome to DownhillTracker.</p>
+</section>
 
-    <section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel" hidden>
-      <h2>Support</h2>
-      <p>Email: <a href="mailto:support@example.com">support@example.com</a></p>
-    </section>
+<section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel" hidden>
+  <h2>Support</h2>
+  <p>Email: <a href="mailto:support@example.com">support@example.com</a></p>
+</section>
 
-    <section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel" hidden>
-      <h2>Privacy Policy</h2>
-      <p>We store sessions locally on-device. Location is used for tracking and stats.</p>
-    </section>
+<section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel" hidden>
+  <h2>Privacy</h2>
+  <p>Privacy policy text goes here.</p>
+</section>
+
   </main>
 
-  <script>
-    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+<script>
+  const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+  const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
-    function activateTab(tab, { updateHash = true } = {}) {
-      // deactivate all
-      tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
-      panels.forEach(p => p.hidden = true);
+  function activateTab(tab) {
+    tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+    panels.forEach(p => p.hidden = true);
 
-      // activate selected
-      tab.setAttribute('aria-selected', 'true');
-      const id = tab.getAttribute('aria-controls');
-      const panel = document.getElementById(id);
-      if (panel) panel.hidden = false;
+    tab.setAttribute('aria-selected', 'true');
+    const panel = document.getElementById(tab.getAttribute('aria-controls'));
+    if (panel) panel.hidden = false;
+    tab.focus();
+  }
 
-      if (updateHash) {
-        // Keep URL shareable: .../index.html#support
-        history.replaceState(null, '', `#${id}`);
-      }
-    }
-
-    // Click handlers
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => activateTab(tab));
-      tab.addEventListener('keydown', (e) => {
-        const index = tabs.indexOf(tab);
-        if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          activateTab(tabs[(index + 1) % tabs.length]);
-        } else if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          activateTab(tabs[(index - 1 + tabs.length) % tabs.length]);
-        }
-      });
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activateTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const index = tabs.indexOf(tab);
+      if (e.key === 'ArrowRight') activateTab(tabs[(index + 1) % tabs.length]);
+      if (e.key === 'ArrowLeft') activateTab(tabs[(index - 1 + tabs.length) % tabs.length]);
     });
+  });
+</script>
 
-    // On load: activate from hash if present
-    const hash = (location.hash || '').replace('#', '');
-    if (hash) {
-      const tab = tabs.find(t => t.getAttribute('aria-controls') === hash);
-      if (tab) activateTab(tab, { updateHash: false });
-    }
-  </script>
 </body>
 </html>
