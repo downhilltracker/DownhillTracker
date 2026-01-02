@@ -1,5 +1,5 @@
 :root{
-  --bg: #0b0c10; 
+  --bg: #0b0c10;
   --card: rgba(255,255,255,0.06);
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.7);
@@ -36,7 +36,7 @@ body{
   z-index: 20;
 }
 
-.site-header .container{
+.header-row{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,6 +53,7 @@ body{
 .nav{
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .nav-link{
@@ -75,37 +76,6 @@ body{
   background: rgba(90,169,255,0.14);
 }
 
-.hero{
-  padding: 26px 0 40px;
-}
-
-h1{
-  margin: 8px 0 10px;
-  font-size: clamp(30px, 4vw, 44px);
-}
-
-.lead{
-  margin: 0 0 18px;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.5;
-}
-
-.page h1{
-  margin-top: 16px;
-}
-
-.card-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  margin-top: 18px;
-}
-
-@media (min-width: 820px){
-  .card-grid{ grid-template-columns: 1fr 1fr 1fr; }
-}
-
 .card{
   background: var(--card);
   border: 1px solid var(--border);
@@ -114,19 +84,51 @@ h1{
   box-shadow: var(--shadow);
 }
 
-.card h2{
+.card.inner{
+  margin-top: 14px;
+}
+
+h1{
+  margin: 6px 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+h2{
   margin: 0 0 10px;
   font-size: 1.1rem;
 }
 
-.card p, .card li{
+.lead{
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.muted{
   color: var(--muted);
   line-height: 1.6;
 }
 
+ul{
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+li{
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
 .button{
   display: inline-block;
-  margin-top: 10px;
   padding: 10px 12px;
   border-radius: 12px;
   color: var(--text);
@@ -137,6 +139,15 @@ h1{
 
 .button:hover{
   background: rgba(90,169,255,0.22);
+}
+
+.button-secondary{
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+}
+
+.button-secondary:hover{
+  background: rgba(255,255,255,0.12);
 }
 
 details{
@@ -153,8 +164,10 @@ summary{
   color: var(--text);
 }
 
+a{ color: var(--accent); }
+
 .fineprint{
-  margin-top: 22px;
+  margin-top: 18px;
   color: rgba(255,255,255,0.55);
   font-size: 0.9rem;
 }
