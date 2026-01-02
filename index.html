@@ -5,69 +5,55 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <base href="./">
   <title>DownhillTracker — Home</title>
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Minimal fallback styles so tabs visibly work even if styles.css is missing -->
-  <style>
-    .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .tab { padding:10px 12px; border-radius:999px; border:1px solid rgba(0,0,0,.12); background:rgba(0,0,0,.04); cursor:pointer; }
-    .tab[aria-selected="true"] { background: rgba(90,169,255,.18); border-color: rgba(90,169,255,.45); }
-    main { padding: 16px; }
-    .panel { padding: 14px; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; }
-  </style>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header class="site-header">
-    <h1>DownhillTracker Support Portal</h1>
-
-    <nav class="tabs" role="tablist" aria-label="Support portal tabs">
-      <button type="button" role="tab" aria-selected="true" aria-controls="home" id="tab-home" class="tab">Home</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="support" id="tab-support" class="tab">Support</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="privacy" id="tab-privacy" class="tab">Privacy Policy</button>
-    </nav>
+    <div class="container header-row">
+      <a class="brand" href="./index.html">DownhillTracker</a>
+      <nav class="nav">
+        <a class="nav-link active" href="./index.html">Home</a>
+        <a class="nav-link" href="./support.html">Support</a>
+        <a class="nav-link" href="./privacy.html">Privacy</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-   <section id="home" role="tabpanel" aria-labelledby="tab-home" class="panel">
-  <h2>Home</h2>
-  <p>Welcome to DownhillTracker.</p>
-</section>
+  <main class="container">
+    <section class="card">
+      <h1>DownhillTracker</h1>
+      <p class="lead">Track downhill sessions with maps, stats, and session history.</p>
 
-<section id="support" role="tabpanel" aria-labelledby="tab-support" class="panel" hidden>
-  <h2>Support</h2>
-  <p>Email: <a href="mailto:support@example.com">support@example.com</a></p>
-</section>
+      <div class="actions">
+        <a class="button" href="./support.html">Get Support</a>
+        <a class="button button-secondary" href="./privacy.html">Privacy Policy</a>
+      </div>
+    </section>
 
-<section id="privacy" role="tabpanel" aria-labelledby="tab-privacy" class="panel" hidden>
-  <h2>Privacy</h2>
-  <p>Privacy policy text goes here.</p>
-</section>
+    <section class="grid">
+      <div class="card">
+        <h2>Features</h2>
+        <ul>
+          <li>Live map tracking</li>
+          <li>Speed, distance, elevation</li>
+          <li>Session history</li>
+          <li>Optional background tracking</li>
+          <li>Demo mode for testing</li>
+        </ul>
+      </div>
 
+      <div class="card">
+        <h2>Questions?</h2>
+        <p>Email us anytime.</p>
+        <p><a href="mailto:downhilltracker@gmail.com">downhilltracker@gmail.com</a></p>
+      </div>
+    </section>
+
+    <p class="fineprint">© <span id="year"></span> DownhillTracker</p>
   </main>
 
-<script>
-  const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-  const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-
-  function activateTab(tab) {
-    tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
-    panels.forEach(p => p.hidden = true);
-
-    tab.setAttribute('aria-selected', 'true');
-    const panel = document.getElementById(tab.getAttribute('aria-controls'));
-    if (panel) panel.hidden = false;
-    tab.focus();
-  }
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => activateTab(tab));
-    tab.addEventListener('keydown', (e) => {
-      const index = tabs.indexOf(tab);
-      if (e.key === 'ArrowRight') activateTab(tabs[(index + 1) % tabs.length]);
-      if (e.key === 'ArrowLeft') activateTab(tabs[(index - 1 + tabs.length) % tabs.length]);
-    });
-  });
-</script>
-
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
